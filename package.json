@@ -35,6 +35,7 @@
     "eslint-plugin-lodash-fp": "^2.2.0-a1"
   },
   "dependencies": {
+    "commander": "^2.20.0",
     "lodash": "^4.17.11"
   }
 }

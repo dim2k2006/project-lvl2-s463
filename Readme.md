@@ -21,8 +21,6 @@ $ make start
 $ make publish
 ```
 
-## Brain even game
+### Usage
 
-### Setup and launch
-
-[![asciicast](https://asciinema.org/a/uYWoW4vbN1n34NAZKdpxzjDi3.svg)](https://asciinema.org/a/uYWoW4vbN1n34NAZKdpxzjDi3)
+[![asciicast](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy.svg)](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy)

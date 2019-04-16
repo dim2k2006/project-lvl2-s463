@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import has from 'lodash/fp/has';
+import has from 'lodash/has';
 
 /**
  * Generates diff between two files

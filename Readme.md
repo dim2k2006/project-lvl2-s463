@@ -23,4 +23,8 @@ $ make publish
 
 ### Usage
 
+[![asciicast](https://asciinema.org/a/Cp2j5LnzndpeAjMHCzQHq80OO.svg)](https://asciinema.org/a/Cp2j5LnzndpeAjMHCzQHq80OO)
+
+##### Help
+
 [![asciicast](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy.svg)](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy)

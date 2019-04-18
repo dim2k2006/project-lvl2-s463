@@ -1,55 +1,152 @@
 import fs from 'fs';
 import path from 'path';
 import has from 'lodash/has';
+import flow from 'lodash/flow';
+
+const actionTypes = {
+  ADDITION: '+',
+  SUBTRACTION: '-',
+  DEFAULT: ' ',
+};
+
+/**
+ * Reads files
+ * @param {String} pathToFile1
+ * @param {String} pathToFile2
+ * @returns {Object}
+ */
+const readFiles = (pathToFile1, pathToFile2) => {
+  const file1 = fs.readFileSync(path.join(__dirname, '..', pathToFile1));
+  const file2 = fs.readFileSync(path.join(__dirname, '..', pathToFile2));
+
+  return {
+    file1,
+    file2,
+  };
+};
+
+/**
+ * Parses files
+ * @param {Function} parseFn
+ * @returns {Function}
+ */
+const parseFiles = parseFn => (props) => {
+  const { file1, file2 } = props;
+
+  return {
+    ...props,
+    data1: parseFn(file1),
+    data2: parseFn(file2),
+  };
+};
+
+/**
+ * Retrieves data keys
+ * @param {Object} props
+ * @returns {Object}
+ */
+const getKeys = (props) => {
+  const { data1, data2 } = props;
+  const keys1 = Object.keys(data1);
+  const keys2 = Object.keys(data2).filter(key => !keys1.includes(key));
+
+  return {
+    ...props,
+    keys1,
+    keys2,
+  };
+};
+
+/**
+ * Retrieves difference between two objects by key
+ * @param {Object} data1
+ * @param {Object} data2
+ * @param {String} key
+ * @returns {Array}
+ */
+const getDiffByKey = (data1, data2, key) => {
+  if (has(data1, key) && has(data2, key) && data1[key] === data2[key]) {
+    return [{ key, value: data1[key], action: actionTypes.DEFAULT }];
+  }
+
+  if (has(data1, key) && has(data2, key) && data1[key] !== data2[key]) {
+    return [
+      { key, value: data2[key], action: actionTypes.ADDITION },
+      { key, value: data1[key], action: actionTypes.SUBTRACTION },
+    ];
+  }
+
+  if (has(data1, key) && !has(data2, key)) {
+    return [{ key, value: data1[key], action: actionTypes.SUBTRACTION }];
+  }
+
+  if (!has(data1, key) && has(data2, key)) {
+    return [{ key, value: data2[key], action: actionTypes.ADDITION }];
+  }
+
+  return [{ key, value: data1[key], action: actionTypes.DEFAULT }];
+};
+
+/**
+ * Retrieves the diff between data
+ * @param {Object} props
+ * @returns {Object}
+ */
+const getDiff = (props) => {
+  const {
+    data1,
+    data2,
+    keys1,
+    keys2,
+  } = props;
+
+  const iter = (index, accumulator) => {
+    const key1 = keys1[index];
+    const key2 = keys2[index];
+
+    if (!key1 && !key2) return accumulator;
+
+    const diff1 = (key1) ? getDiffByKey(data1, data2, key1) : [];
+    const diff2 = (key2) ? getDiffByKey(data1, data2, key2) : [];
+
+    return iter(index + 1, [...accumulator, ...diff1, ...diff2]);
+  };
+
+  return {
+    ...props,
+    diff: iter(0, []),
+  };
+};
+
+/**
+ * Formats the result
+ * @param {Object} props
+ * @returns {String}
+ */
+const format = (props) => {
+  const { diff } = props;
+  const result = diff
+    .map(item => `  ${item.action} ${item.key}: ${item.value}`)
+    .join('\n');
+
+  return `{
+${result}
+}
+`;
+};
 
 /**
  * Generates diff between two files
  * @param {String} pathToFile1
  * @param {String} pathToFile2
  */
-const genDiff = (pathToFile1, pathToFile2) => {
-  const data1 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', pathToFile1)));
-  const data2 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', pathToFile2)));
-  const data = [
-    ...Object.keys(data1).map(key => ({ key, value: data1[key] })),
-    ...Object.keys(data2).map(key => ({ key, value: data2[key] })),
-  ];
+const genDiff = flow(
+  readFiles,
+  parseFiles(JSON.parse),
+  getKeys,
+  getDiff,
+  format,
+);
 
-  return `{\n${
-    data
-      .reduce((accumulator, item) => {
-        const { key, value } = item;
-
-        const existingItem = accumulator.find(accItem => accItem.key === key);
-
-        if (!existingItem && (data1[key] === data2[key])) return [...accumulator, { key, value, action: ' ' }];
-
-        if (!existingItem && (has(data1, key) && has(data2, key) && (data1[key] !== data2[key]))) return [...accumulator, { key, value, action: '+' }];
-
-        if (!existingItem && (has(data1, key) && !has(data2, key))) return [...accumulator, { key, value, action: '-' }];
-
-        if (!existingItem && data1[key] && !data2[key]) return [...accumulator, { key, value, action: '-' }];
-
-        if (!existingItem && !data1[key] && data2[key]) return [...accumulator, { key, value, action: '+' }];
-
-        const existingItemIndex = accumulator.findIndex(accItem => accItem.key === key);
-
-        if (existingItem && existingItem.value !== value) {
-          return [
-            ...accumulator.slice(0, existingItemIndex),
-            { key, value, action: '+' },
-            { key, value: existingItem.value, action: '-' },
-            ...accumulator.slice(existingItemIndex + 1),
-          ];
-        }
-
-        if (existingItem && existingItem.value === value) return accumulator;
-
-        return accumulator;
-      }, [])
-      .map(item => `${item.action} ${item.key}: ${item.value}`)
-      .join('\n')
-  }\n}\n`;
-};
 
 export default genDiff;

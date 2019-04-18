@@ -23,7 +23,13 @@ $ make publish
 
 ### Usage
 
+#### Compare JSON files
+
 [![asciicast](https://asciinema.org/a/Cp2j5LnzndpeAjMHCzQHq80OO.svg)](https://asciinema.org/a/Cp2j5LnzndpeAjMHCzQHq80OO)
+
+#### Compare YML files
+
+[![asciicast](https://asciinema.org/a/YU5YQrFb2TIDG34scn69WqxQc.svg)](https://asciinema.org/a/YU5YQrFb2TIDG34scn69WqxQc)
 
 ##### Help
 

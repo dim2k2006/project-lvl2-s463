@@ -2,6 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import has from 'lodash/has';
 import flow from 'lodash/flow';
+import { safeLoad } from 'js-yaml';
+
+const parseFnTypes = {
+  json: JSON.parse,
+  yaml: safeLoad,
+};
 
 const actionTypes = {
   ADDITION: '+',
@@ -11,32 +17,41 @@ const actionTypes = {
 
 /**
  * Reads files
- * @param {String} pathToFile1
- * @param {String} pathToFile2
+ * @param {String} path1
+ * @param {String} path2
  * @returns {Object}
  */
-const readFiles = (pathToFile1, pathToFile2) => {
-  const file1 = fs.readFileSync(path.resolve(pathToFile1));
-  const file2 = fs.readFileSync(path.resolve(pathToFile2));
+const readFiles = (path1, path2) => {
+  const file1 = fs.readFileSync(path.resolve(path1), 'utf8');
+  const file2 = fs.readFileSync(path.resolve(path2), 'utf8');
 
   return {
+    path1,
+    path2,
     file1,
     file2,
+    ext1: path.extname(path1).slice(1),
+    ext2: path.extname(path2).slice(1),
   };
 };
 
 /**
  * Parses files
- * @param {Function} parseFn
- * @returns {Function}
+ * @param {Object} props
+ * @returns {Object}
  */
-const parseFiles = parseFn => (props) => {
-  const { file1, file2 } = props;
+const parseFiles = (props) => {
+  const {
+    ext1,
+    ext2,
+    file1,
+    file2,
+  } = props;
 
   return {
     ...props,
-    data1: parseFn(file1),
-    data2: parseFn(file2),
+    data1: parseFnTypes[ext1](file1),
+    data2: parseFnTypes[ext2](file2),
   };
 };
 
@@ -142,7 +157,7 @@ ${result}
  */
 const genDiff = flow(
   readFiles,
-  parseFiles(JSON.parse),
+  parseFiles,
   getKeys,
   getDiff,
   format,

@@ -16,8 +16,8 @@ const actionTypes = {
  * @returns {Object}
  */
 const readFiles = (pathToFile1, pathToFile2) => {
-  const file1 = fs.readFileSync(path.join(__dirname, '..', pathToFile1));
-  const file2 = fs.readFileSync(path.join(__dirname, '..', pathToFile2));
+  const file1 = fs.readFileSync(path.resolve(pathToFile1));
+  const file2 = fs.readFileSync(path.resolve(pathToFile2));
 
   return {
     file1,

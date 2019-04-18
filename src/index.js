@@ -3,6 +3,7 @@ import path from 'path';
 import has from 'lodash/has';
 import flow from 'lodash/flow';
 import { safeLoad } from 'js-yaml';
+import getParser from './parsers';
 
 const parseFnTypes = {
   json: JSON.parse,
@@ -50,8 +51,8 @@ const parseFiles = (props) => {
 
   return {
     ...props,
-    data1: parseFnTypes[ext1](file1),
-    data2: parseFnTypes[ext2](file2),
+    data1: getParser(ext1)(file1),
+    data2: getParser(ext2)(file2),
   };
 };
 

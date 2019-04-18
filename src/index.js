@@ -2,13 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import has from 'lodash/has';
 import flow from 'lodash/flow';
-import { safeLoad } from 'js-yaml';
 import getParser from './parsers';
-
-const parseFnTypes = {
-  json: JSON.parse,
-  yml: safeLoad,
-};
 
 const actionTypes = {
   ADDITION: '+',

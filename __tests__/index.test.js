@@ -9,9 +9,9 @@ describe('genDiff', () => {
     expect(genDiff('./__tests__/__fixtures__/before.json', './__tests__/__fixtures__/after.json')).toBe(expected);
   });
 
-  test('Should return correct diff. yaml files.', () => {
+  test('Should return correct diff. yml files.', () => {
     const expected = fs.readFileSync(path.resolve(__dirname, '__fixtures__', 'expected.txt'), 'utf8');
 
-    expect(genDiff('./__tests__/__fixtures__/before.yaml', './__tests__/__fixtures__/after.yaml')).toBe(expected);
+    expect(genDiff('./__tests__/__fixtures__/before.yml', './__tests__/__fixtures__/after.yml')).toBe(expected);
   });
 });

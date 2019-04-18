@@ -6,7 +6,7 @@ import { safeLoad } from 'js-yaml';
 
 const parseFnTypes = {
   json: JSON.parse,
-  yaml: safeLoad,
+  yml: safeLoad,
 };
 
 const actionTypes = {

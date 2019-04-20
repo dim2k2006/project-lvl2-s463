@@ -7,6 +7,7 @@ const fixturesPath = path.join('.', '__tests__', '__fixtures__');
 const fixtures = [
   [path.join(fixturesPath, 'before.json'), path.join(fixturesPath, 'after.json')],
   [path.join(fixturesPath, 'before.yml'), path.join(fixturesPath, 'after.yml')],
+  [path.join(fixturesPath, 'before.ini'), path.join(fixturesPath, 'after.ini')],
 ];
 
 describe('genDiff', () => {

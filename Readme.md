@@ -31,6 +31,10 @@ $ make publish
 
 [![asciicast](https://asciinema.org/a/YU5YQrFb2TIDG34scn69WqxQc.svg)](https://asciinema.org/a/YU5YQrFb2TIDG34scn69WqxQc)
 
+#### Compare INI files
+
+[![asciicast](https://asciinema.org/a/MC4nCAYvP76th8WfDLj5wAwU1.svg)](https://asciinema.org/a/MC4nCAYvP76th8WfDLj5wAwU1) 
+
 ##### Help
 
 [![asciicast](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy.svg)](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy)

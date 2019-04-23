@@ -3,6 +3,9 @@ import path from 'path';
 import has from 'lodash/has';
 import flow from 'lodash/flow';
 import getParser from './parsers';
+import utils from './utils';
+
+const { getAst, getDiff } = utils;
 
 const actionTypes = {
   ADDITION: '+',
@@ -51,82 +54,119 @@ const parseFiles = (props) => {
 };
 
 /**
- * Retrieves data keys
+ * Retrieves ast for each file
  * @param {Object} props
  * @returns {Object}
  */
-const getKeys = (props) => {
+const retrieveAst = (props) => {
   const { data1, data2 } = props;
-  const keys1 = Object.keys(data1);
-  const keys2 = Object.keys(data2).filter(key => !keys1.includes(key));
 
   return {
     ...props,
-    keys1,
-    keys2,
+    ast1: getAst(data1),
+    ast2: getAst(data2),
   };
 };
 
 /**
- * Retrieves difference between two objects by key
- * @param {Object} data1
- * @param {Object} data2
- * @param {String} key
- * @returns {Array}
- */
-const getDiffByKey = (data1, data2, key) => {
-  if (has(data1, key) && has(data2, key) && data1[key] === data2[key]) {
-    return [{ key, value: data1[key], action: actionTypes.DEFAULT }];
-  }
-
-  if (has(data1, key) && has(data2, key) && data1[key] !== data2[key]) {
-    return [
-      { key, value: data2[key], action: actionTypes.ADDITION },
-      { key, value: data1[key], action: actionTypes.SUBTRACTION },
-    ];
-  }
-
-  if (has(data1, key) && !has(data2, key)) {
-    return [{ key, value: data1[key], action: actionTypes.SUBTRACTION }];
-  }
-
-  if (!has(data1, key) && has(data2, key)) {
-    return [{ key, value: data2[key], action: actionTypes.ADDITION }];
-  }
-
-  return [{ key, value: data1[key], action: actionTypes.DEFAULT }];
-};
-
-/**
- * Retrieves the diff between data
+ * Retrieves diff between two ast
  * @param {Object} props
  * @returns {Object}
  */
-const getDiff = (props) => {
-  const {
-    data1,
-    data2,
-    keys1,
-    keys2,
-  } = props;
+const compareAst = (props) => {
+  const { ast1, ast2 } = props;
 
-  const iter = (index, accumulator) => {
-    const key1 = keys1[index];
-    const key2 = keys2[index];
+  // console.log('ast1:', ast1);
+  // console.log('ast2:', ast2);
 
-    if (!key1 && !key2) return accumulator;
-
-    const diff1 = (key1) ? getDiffByKey(data1, data2, key1) : [];
-    const diff2 = (key2) ? getDiffByKey(data1, data2, key2) : [];
-
-    return iter(index + 1, [...accumulator, ...diff1, ...diff2]);
-  };
+  const diff1 = getDiff(ast1, ast2, false);
+  const diff2 = getDiff(ast2, ast1, true)
+    .filter(({ key: key2 }) => !diff1.find(({ key: key1 }) => key1 === key2));
+  const diff = [...diff1, ...diff2];
 
   return {
     ...props,
-    diff: iter(0, []),
+    diff,
   };
 };
+
+// /**
+//  * Retrieves data keys
+//  * @param {Object} props
+//  * @returns {Object}
+//  */
+// const getKeys = (props) => {
+//   const { data1, data2 } = props;
+//   const keys1 = Object.keys(data1);
+//   const keys2 = Object.keys(data2).filter(key => !keys1.includes(key));
+//
+//   return {
+//     ...props,
+//     keys1,
+//     keys2,
+//   };
+// };
+
+// /**
+//  * Retrieves difference between two objects by key
+//  * @param {Object} data1
+//  * @param {Object} data2
+//  * @param {String} key
+//  * @returns {Array}
+//  */
+// const getDiffByKey = (data1, data2, key) => {
+//   if (has(data1, key) && has(data2, key) && data1[key] === data2[key]) {
+//     return [{ key, value: data1[key], action: actionTypes.DEFAULT }];
+//   }
+//
+//   if (has(data1, key) && has(data2, key) && data1[key] !== data2[key]) {
+//     return [
+//       { key, value: data2[key], action: actionTypes.ADDITION },
+//       { key, value: data1[key], action: actionTypes.SUBTRACTION },
+//     ];
+//   }
+//
+//   if (has(data1, key) && !has(data2, key)) {
+//     return [{ key, value: data1[key], action: actionTypes.SUBTRACTION }];
+//   }
+//
+//   if (!has(data1, key) && has(data2, key)) {
+//     return [{ key, value: data2[key], action: actionTypes.ADDITION }];
+//   }
+//
+//   return [{ key, value: data1[key], action: actionTypes.DEFAULT }];
+// };
+//
+// /**
+//  * Retrieves the diff between data
+//  * @param {Object} props
+//  * @returns {Object}
+//  */
+// const getDiff = (props) => {
+//   const {
+//     data1,
+//     data2,
+//     keys1,
+//     keys2,
+//   } = props;
+//
+//   const iter = (index, accumulator) => {
+//     const key1 = keys1[index];
+//     const key2 = keys2[index];
+//
+//     if (!key1 && !key2) return accumulator;
+//
+//     const diff1 = (key1) ? getDiffByKey(data1, data2, key1) : [];
+//     const diff2 = (key2) ? getDiffByKey(data1, data2, key2) : [];
+//
+//     return iter(index + 1, [...accumulator, ...diff1, ...diff2]);
+//   };
+//
+//   return {
+//     ...props,
+//     diff: iter(0, []),
+//   };
+// };
 
 /**
  * Formats the result
@@ -135,14 +175,37 @@ const getDiff = (props) => {
  */
 const format = (props) => {
   const { diff } = props;
-  const result = diff
-    .map(item => `  ${item.action} ${item.key}: ${item.value}`)
-    .join('\n');
+  const indentationChar = ' ';
+  const indentationOffset = 2;
+  const actionOffset = 1;
 
-  return `{
+  const iter = (data, offset, aOffset) => {
+    const result = data
+      .map(({
+        key,
+        value,
+        action,
+        children = [],
+      }) => {
+        const currentAOffset = offset > indentationOffset ? aOffset : 0;
+        const offsetValue = (offset > indentationOffset) ? offset + currentAOffset : offset;
+
+        if (!children.length) return `${indentationChar.repeat(offsetValue)}${action} ${key}: ${value}`;
+
+        return `${indentationChar.repeat(offsetValue)}${action} ${key}: ${iter(children, offset + indentationOffset, aOffset * 2)}`;
+      })
+      .join('\n');
+
+    return `{
 ${result}
-}
-`;
+${indentationChar.repeat(offset)}}`;
+  };
+
+  const result = iter(diff, indentationOffset, actionOffset);
+
+  console.log('result:', result);
+
+  return result;
 };
 
 /**
@@ -153,8 +216,10 @@ ${result}
 const genDiff = flow(
   readFiles,
   parseFiles,
-  getKeys,
-  getDiff,
+  retrieveAst,
+  compareAst,
+  // getKeys,
+  // getDiff,
   format,
 );
 

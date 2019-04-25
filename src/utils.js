@@ -44,20 +44,18 @@ const getDiff = (ast1, ast2, reverseActions = false) => ast1
           key: key1,
           value: value1,
           action: actionTypes.SUBTRACTION,
+          children: children1,
         },
       ];
     }
 
-    const { key: key2, value: value2, children: children2 = [] } = comparedItem;
+    const { value: value2, children: children2 = [] } = comparedItem;
 
     const childDiff1 = getDiff(children1, children2);
     const childDiff2 = getDiff(children2, children1, true)
       .filter(({ key: ckey2 }) => !childDiff1.find(({ key: ckey1 }) => ckey1 === ckey2));
 
     const childDiff = [...childDiff1, ...childDiff2];
-
-    // если есть чилдрены то сделать доп проверку
-    // кажется что нет рекурсии, скрипт работает только на 1 уровень в глубину
 
     if (value1 === value2) {
       return [

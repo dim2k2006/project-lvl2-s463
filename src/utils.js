@@ -1,4 +1,5 @@
 import actionTypes from './utils/actionTypes';
+import removeDuplicates from './utils/removeDuplicates';
 
 /**
  * Retrieves difference between two ast
@@ -26,8 +27,7 @@ const getDiff = (ast1, ast2, reverseActions = false) => ast1
     const { value: value2, children: children2 = [] } = comparedItem;
 
     const childDiff1 = getDiff(children1, children2);
-    const childDiff2 = getDiff(children2, children1, true)
-      .filter(({ key: ckey2 }) => !childDiff1.find(({ key: ckey1 }) => ckey1 === ckey2));
+    const childDiff2 = removeDuplicates(childDiff1)(getDiff(children2, children1, true));
 
     const childDiff = [...childDiff1, ...childDiff2];
 

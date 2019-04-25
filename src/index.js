@@ -1,17 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import has from 'lodash/has';
 import flow from 'lodash/flow';
 import getParser from './parsers';
 import utils from './utils';
+import buildAst from './utils/buildAst';
 
-const { getAst, getDiff } = utils;
-
-const actionTypes = {
-  ADDITION: '+',
-  SUBTRACTION: '-',
-  DEFAULT: ' ',
-};
+const { getDiff } = utils;
 
 /**
  * Reads files
@@ -63,8 +57,8 @@ const retrieveAst = (props) => {
 
   return {
     ...props,
-    ast1: getAst(data1),
-    ast2: getAst(data2),
+    ast1: buildAst(data1),
+    ast2: buildAst(data2),
   };
 };
 
@@ -83,6 +77,8 @@ const compareAst = (props) => {
   const diff2 = getDiff(ast2, ast1, true)
     .filter(({ key: key2 }) => !diff1.find(({ key: key1 }) => key1 === key2));
   const diff = [...diff1, ...diff2];
+
+  console.log('diff:', JSON.stringify(diff));
 
   return {
     ...props,
@@ -220,7 +216,7 @@ const genDiff = flow(
   compareAst,
   // getKeys,
   // getDiff,
-  format,
+  // format,
 );
 
 

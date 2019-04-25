@@ -35,6 +35,10 @@ $ make publish
 
 [![asciicast](https://asciinema.org/a/MC4nCAYvP76th8WfDLj5wAwU1.svg)](https://asciinema.org/a/MC4nCAYvP76th8WfDLj5wAwU1) 
 
+### Compare nested files
+
+[![asciicast](https://asciinema.org/a/SceM91H7cgnx7G7TqhIXl5Ml7.svg)](https://asciinema.org/a/SceM91H7cgnx7G7TqhIXl5Ml7)
+
 ##### Help
 
 [![asciicast](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy.svg)](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy)

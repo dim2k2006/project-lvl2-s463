@@ -13,10 +13,7 @@ const stringify = (ast, depth = 2) => {
       key,
       value,
       children = [],
-    }) => {
-
-      return `${indentationChar.repeat(depth)}${action} ${key}: ${(!children.length) ? value : stringify(children, depth + 4)}`;
-    })
+    }) => `${indentationChar.repeat(depth)}${action} ${key}: ${(!children.length) ? value : stringify(children, depth + 4)}`)
     .join('\n');
 
   return `{

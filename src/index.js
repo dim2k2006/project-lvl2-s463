@@ -89,9 +89,7 @@ const compareAst = (props) => {
 const format = (props) => {
   const { diff } = props;
 
-  const result = `${stringify(diff)}\n`;
-
-  return result;
+  return `${stringify(diff)}\n`;
 };
 
 /**

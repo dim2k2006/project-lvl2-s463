@@ -4,8 +4,6 @@ import flow from 'lodash/flow';
 import getParser from './parsers';
 import utils from './utils';
 import buildAst from './utils/buildAst';
-import removeDuplicates from './utils/removeDuplicates';
-import reverseActions from './utils/reverseActions';
 import reverseAndUnique from './utils/reverseAndUnique';
 
 const { getDiff } = utils;

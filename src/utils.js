@@ -1,6 +1,5 @@
 import actionTypes from './utils/actionTypes';
-import removeDuplicates from './utils/removeDuplicates';
-import reverseActions from './utils/reverseActions';
+import reverseAndUnique from './utils/reverseAndUnique';
 
 /**
  * Retrieves difference between two ast
@@ -27,7 +26,7 @@ const getDiff = (ast1, ast2) => ast1
     const { value: value2, children: children2 = [] } = comparedItem;
 
     const childDiff1 = getDiff(children1, children2);
-    const childDiff2 = removeDuplicates(childDiff1)(reverseActions(getDiff(children2, children1)));
+    const childDiff2 = reverseAndUnique(childDiff1)(getDiff(children2, children1));
 
     const childDiff = [...childDiff1, ...childDiff2];
 

@@ -15,6 +15,7 @@ const fixtures = [
   [path.join(fixturesPath, 'yml', 'before-nested.yml'), path.join(fixturesPath, 'yml', 'after-nested.yml'), expectedNested],
 
   [path.join(fixturesPath, 'ini', 'before.ini'), path.join(fixturesPath, 'ini', 'after.ini'), expectedFlat],
+  [path.join(fixturesPath, 'ini', 'before-nested.ini'), path.join(fixturesPath, 'ini', 'after-nested.ini'), expectedNested],
 ];
 
 describe('genDiff', () => {

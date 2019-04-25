@@ -4,6 +4,7 @@ import flow from 'lodash/flow';
 import getParser from './parsers';
 import utils from './utils';
 import buildAst from './utils/buildAst';
+import removeDuplicates from './utils/removeDuplicates';
 
 const { getDiff } = utils;
 
@@ -71,8 +72,8 @@ const compareAst = (props) => {
   const { ast1, ast2 } = props;
 
   const diff1 = getDiff(ast1, ast2, false);
-  const diff2 = getDiff(ast2, ast1, true)
-    .filter(({ key: key2 }) => !diff1.find(({ key: key1 }) => key1 === key2));
+  const diff2 = removeDuplicates(diff1)(getDiff(ast2, ast1, true));
+
   const diff = [...diff1, ...diff2];
 
   console.log('diff:', JSON.stringify(diff));

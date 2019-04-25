@@ -70,9 +70,6 @@ const retrieveAst = (props) => {
 const compareAst = (props) => {
   const { ast1, ast2 } = props;
 
-  // console.log('ast1:', ast1);
-  // console.log('ast2:', ast2);
-
   const diff1 = getDiff(ast1, ast2, false);
   const diff2 = getDiff(ast2, ast1, true)
     .filter(({ key: key2 }) => !diff1.find(({ key: key1 }) => key1 === key2));

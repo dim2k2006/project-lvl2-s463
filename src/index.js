@@ -6,6 +6,7 @@ import utils from './utils';
 import buildAst from './utils/buildAst';
 import removeDuplicates from './utils/removeDuplicates';
 import reverseActions from './utils/reverseActions';
+import reverseAndUnique from './utils/reverseAndUnique';
 
 const { getDiff } = utils;
 
@@ -73,7 +74,7 @@ const compareAst = (props) => {
   const { ast1, ast2 } = props;
 
   const diff1 = getDiff(ast1, ast2);
-  const diff2 = removeDuplicates(diff1)(reverseActions(getDiff(ast2, ast1)));
+  const diff2 = reverseAndUnique(diff1)(getDiff(ast2, ast1));
 
   const diff = [...diff1, ...diff2];
 

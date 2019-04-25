@@ -5,6 +5,7 @@ import getParser from './parsers';
 import buildAst from './utils/buildAst';
 import reverseAndUnique from './utils/reverseAndUnique';
 import getDiff from './utils/getDiff';
+import stringify from './utils/stringify';
 
 /**
  * Reads files
@@ -74,8 +75,6 @@ const compareAst = (props) => {
 
   const diff = [...diff1, ...diff2];
 
-  console.log('diff:', JSON.stringify(diff));
-
   return {
     ...props,
     diff,
@@ -89,35 +88,8 @@ const compareAst = (props) => {
  */
 const format = (props) => {
   const { diff } = props;
-  const indentationChar = ' ';
-  const indentationOffset = 2;
-  const actionOffset = 1;
 
-  const iter = (data, offset, aOffset) => {
-    const result = data
-      .map(({
-        key,
-        value,
-        action,
-        children = [],
-      }) => {
-        const currentAOffset = offset > indentationOffset ? aOffset : 0;
-        const offsetValue = (offset > indentationOffset) ? offset + currentAOffset : offset;
-
-        if (!children.length) return `${indentationChar.repeat(offsetValue)}${action} ${key}: ${value}`;
-
-        return `${indentationChar.repeat(offsetValue)}${action} ${key}: ${iter(children, offset + indentationOffset, aOffset * 2)}`;
-      })
-      .join('\n');
-
-    return `{
-${result}
-${indentationChar.repeat(offset)}}`;
-  };
-
-  const result = iter(diff, indentationOffset, actionOffset);
-
-  console.log('result:', result);
+  const result = `${stringify(diff)}\n`;
 
   return result;
 };
@@ -132,9 +104,7 @@ const genDiff = flow(
   parseFiles,
   retrieveAst,
   compareAst,
-  // getKeys,
-  // getDiff,
-  // format,
+  format,
 );
 
 

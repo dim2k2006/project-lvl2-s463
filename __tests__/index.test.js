@@ -8,9 +8,9 @@ const expectedFlat = fs.readFileSync(path.resolve(fixturesPath, 'expected.txt'),
 const expectedNested = fs.readFileSync(path.resolve(fixturesPath, 'expected-nested.txt'), 'utf8');
 
 const fixtures = [
-  // [path.join(fixturesPath, 'before.json'), path.join(fixturesPath, 'after.json'), expectedFlat],
-  // [path.join(fixturesPath, 'before.yml'), path.join(fixturesPath, 'after.yml'), expectedFlat],
-  // [path.join(fixturesPath, 'before.ini'), path.join(fixturesPath, 'after.ini'), expectedFlat],
+  [path.join(fixturesPath, 'before.json'), path.join(fixturesPath, 'after.json'), expectedFlat],
+  [path.join(fixturesPath, 'before.yml'), path.join(fixturesPath, 'after.yml'), expectedFlat],
+  [path.join(fixturesPath, 'before.ini'), path.join(fixturesPath, 'after.ini'), expectedFlat],
   [path.join(fixturesPath, 'before-nested.json'), path.join(fixturesPath, 'after-nested.json'), expectedNested],
 ];
 

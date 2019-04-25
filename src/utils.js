@@ -76,13 +76,13 @@ const getDiff = (ast1, ast2, reverseActions = false) => ast1
           key: key1,
           value: value2,
           action: actionTypes.ADDITION,
-          children: childDiff,
+          children: children2,
         },
         {
           key: key1,
           value: value1,
           action: actionTypes.SUBTRACTION,
-          children: childDiff,
+          children: children1,
         },
       ];
     }

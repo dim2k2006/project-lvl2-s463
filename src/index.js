@@ -5,6 +5,7 @@ import getParser from './parsers';
 import utils from './utils';
 import buildAst from './utils/buildAst';
 import removeDuplicates from './utils/removeDuplicates';
+import reverseActions from './utils/reverseActions';
 
 const { getDiff } = utils;
 
@@ -71,8 +72,8 @@ const retrieveAst = (props) => {
 const compareAst = (props) => {
   const { ast1, ast2 } = props;
 
-  const diff1 = getDiff(ast1, ast2, false);
-  const diff2 = removeDuplicates(diff1)(getDiff(ast2, ast1, true));
+  const diff1 = getDiff(ast1, ast2);
+  const diff2 = removeDuplicates(diff1)(reverseActions(getDiff(ast2, ast1)));
 
   const diff = [...diff1, ...diff2];
 

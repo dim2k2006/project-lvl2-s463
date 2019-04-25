@@ -2,11 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import flow from 'lodash/flow';
 import getParser from './parsers';
-import utils from './utils';
 import buildAst from './utils/buildAst';
 import reverseAndUnique from './utils/reverseAndUnique';
-
-const { getDiff } = utils;
+import getDiff from './utils/getDiff';
 
 /**
  * Reads files

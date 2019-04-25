@@ -1,30 +1,4 @@
-/**
- * Converts object to ast
- * @param {Object} data
- * @returns {Array}
- */
-const getAst = (data = {}) => Object.keys(data).map((key) => {
-  const value = data[key];
-
-  if (!(value instanceof Object)) {
-    return {
-      key,
-      value,
-    };
-  }
-
-  return {
-    key,
-    value: '',
-    children: getAst(value),
-  };
-});
-
-const actionTypes = {
-  ADDITION: '+',
-  SUBTRACTION: '-',
-  DEFAULT: ' ',
-};
+import actionTypes from './utils/actionTypes';
 
 /**
  * Retrieves difference between two ast
@@ -102,4 +76,4 @@ const getDiff = (ast1, ast2, reverseActions = false) => ast1
     };
   });
 
-export default { getAst, getDiff };
+export default { getDiff };

@@ -39,6 +39,10 @@ $ make publish
 
 [![asciicast](https://asciinema.org/a/SceM91H7cgnx7G7TqhIXl5Ml7.svg)](https://asciinema.org/a/SceM91H7cgnx7G7TqhIXl5Ml7)
 
+### Plain format
+
+[![asciicast](https://asciinema.org/a/uBXQbQmmGn6kf5pk3oLHWJTLG.svg)](https://asciinema.org/a/uBXQbQmmGn6kf5pk3oLHWJTLG)
+
 ##### Help
 
 [![asciicast](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy.svg)](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy)

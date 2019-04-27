@@ -43,6 +43,10 @@ $ make publish
 
 [![asciicast](https://asciinema.org/a/uBXQbQmmGn6kf5pk3oLHWJTLG.svg)](https://asciinema.org/a/uBXQbQmmGn6kf5pk3oLHWJTLG)
 
+### Json format
+
+[![asciicast](https://asciinema.org/a/Jb5sFzduzKUy1yb7GSUxfsxDf.svg)](https://asciinema.org/a/Jb5sFzduzKUy1yb7GSUxfsxDf)
+
 ##### Help
 
 [![asciicast](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy.svg)](https://asciinema.org/a/o1fW2RfqiufRqGzEuNjATpTNy)

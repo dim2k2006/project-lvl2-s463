@@ -1,4 +1,4 @@
-import actionTypes from '../actionTypes';
+import actionTypes from '../../types/actionTypes';
 
 /**
  * Reverses actions in ast tree

@@ -7,8 +7,11 @@ const fixturesPath = path.join('.', '__tests__', '__fixtures__');
 
 const expectedFlat = fs.readFileSync(path.resolve(fixturesPath, 'expected.txt'), 'utf8');
 const expectedFlatPlain = fs.readFileSync(path.resolve(fixturesPath, 'expected-plain.txt'), 'utf8');
+const expectedFlatJson = fs.readFileSync(path.resolve(fixturesPath, 'expected-json.json'), 'utf8');
+
 const expectedNested = fs.readFileSync(path.resolve(fixturesPath, 'expected-nested.txt'), 'utf8');
 const expectedNestedPlain = fs.readFileSync(path.resolve(fixturesPath, 'expected-nested-plain.txt'), 'utf8');
+const expectedNestedJson = fs.readFileSync(path.resolve(fixturesPath, 'expected-nested-json.json'), 'utf8');
 
 const fixtures = [
   // JSON default format
@@ -18,6 +21,10 @@ const fixtures = [
   // JSON plain format
   [path.join(fixturesPath, 'json', 'before.json'), path.join(fixturesPath, 'json', 'after.json'), formatTypes.PLAIN, expectedFlatPlain],
   [path.join(fixturesPath, 'json', 'before-nested.json'), path.join(fixturesPath, 'json', 'after-nested.json'), formatTypes.PLAIN, expectedNestedPlain],
+
+  // JSON json format
+  [path.join(fixturesPath, 'json', 'before.json'), path.join(fixturesPath, 'json', 'after.json'), formatTypes.JSON, expectedFlatJson],
+  [path.join(fixturesPath, 'json', 'before-nested.json'), path.join(fixturesPath, 'json', 'after-nested.json'), formatTypes.JSON, expectedNestedJson],
 
   // YML default format
   [path.join(fixturesPath, 'yml', 'before.yml'), path.join(fixturesPath, 'yml', 'after.yml'), formatTypes.DEFAULT, expectedFlat],

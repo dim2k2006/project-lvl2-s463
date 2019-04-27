@@ -34,6 +34,10 @@ const fixtures = [
   [path.join(fixturesPath, 'yml', 'before.yml'), path.join(fixturesPath, 'yml', 'after.yml'), formatTypes.PLAIN, expectedFlatPlain],
   [path.join(fixturesPath, 'yml', 'before-nested.yml'), path.join(fixturesPath, 'yml', 'after-nested.yml'), formatTypes.PLAIN, expectedNestedPlain],
 
+  // YML json format
+  [path.join(fixturesPath, 'yml', 'before.yml'), path.join(fixturesPath, 'yml', 'after.yml'), formatTypes.PLAIN, expectedFlatPlain],
+  [path.join(fixturesPath, 'yml', 'before-nested.yml'), path.join(fixturesPath, 'yml', 'after-nested.yml'), formatTypes.JSON, expectedNestedJson],
+
   // INI default format
   [path.join(fixturesPath, 'ini', 'before.ini'), path.join(fixturesPath, 'ini', 'after.ini'), formatTypes.DEFAULT, expectedFlat],
   [path.join(fixturesPath, 'ini', 'before-nested.ini'), path.join(fixturesPath, 'ini', 'after-nested.ini'), formatTypes.DEFAULT, expectedNested],
@@ -41,6 +45,10 @@ const fixtures = [
   // INI plain format
   [path.join(fixturesPath, 'ini', 'before.ini'), path.join(fixturesPath, 'ini', 'after.ini'), formatTypes.PLAIN, expectedFlatPlain],
   [path.join(fixturesPath, 'ini', 'before-nested.ini'), path.join(fixturesPath, 'ini', 'after-nested.ini'), formatTypes.PLAIN, expectedNestedPlain],
+
+  // INI json format
+  [path.join(fixturesPath, 'ini', 'before.ini'), path.join(fixturesPath, 'ini', 'after.ini'), formatTypes.PLAIN, expectedFlatPlain],
+  [path.join(fixturesPath, 'ini', 'before-nested.ini'), path.join(fixturesPath, 'ini', 'after-nested.ini'), formatTypes.JSON, expectedNestedJson],
 ];
 
 describe('genDiff', () => {

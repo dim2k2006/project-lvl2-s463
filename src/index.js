@@ -79,11 +79,11 @@ const compareAst = (props) => {
 };
 
 /**
- * Formats the result
+ * Renders the ast
  * @param {Object} props
  * @returns {String}
  */
-const format = (props) => {
+const renderAst = (props) => {
   const { diff } = props;
 
   return `${stringify(diff)}\n`;
@@ -99,7 +99,7 @@ const genDiff = flow(
   parseFiles,
   retrieveAst,
   compareAst,
-  format,
+  renderAst,
 );
 
 

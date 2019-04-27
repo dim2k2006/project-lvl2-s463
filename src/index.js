@@ -88,7 +88,6 @@ const compareAst = (props) => {
 const renderAst = (props) => {
   const { diff, format = formatTypes.DEFAULT } = props;
 
-  // return `${stringify(diff)}\n`;
   return `${getFormatter(format)(diff)}\n`;
 };
 

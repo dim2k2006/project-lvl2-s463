@@ -6,6 +6,8 @@ import buildAst from './utils/buildAst';
 import reverseAndUnique from './utils/reverseAndUnique';
 import getDiff from './utils/getDiff';
 import stringify from './utils/stringify';
+import getFormatter from './formatters';
+import formatTypes from './types/formatTypes';
 
 /**
  * Reads files
@@ -84,9 +86,10 @@ const compareAst = (props) => {
  * @returns {String}
  */
 const renderAst = (props) => {
-  const { diff } = props;
+  const { diff, format = formatTypes.DEFAULT } = props;
 
-  return `${stringify(diff)}\n`;
+  // return `${stringify(diff)}\n`;
+  return `${getFormatter(format)(diff)}\n`;
 };
 
 /**

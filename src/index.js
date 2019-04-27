@@ -7,6 +7,7 @@ import reverseAndUnique from './utils/reverseAndUnique';
 import getDiff from './utils/getDiff';
 import getFormatter from './formatters';
 import formatTypes from './types/formatTypes';
+import withPath from './utils/withPath';
 
 /**
  * Reads files
@@ -87,7 +88,7 @@ const compareAst = (props) => {
 const renderAst = (props) => {
   const { diff, format = formatTypes.DEFAULT } = props;
 
-  return `${getFormatter(format)(diff)}\n`;
+  return `${getFormatter(format)(withPath(diff))}\n`;
 };
 
 /**

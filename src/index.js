@@ -9,19 +9,16 @@ import stringify from './utils/stringify';
 
 /**
  * Reads files
- * @param {String} path1
- * @param {String} path2
+ * @param {Object} props
  * @returns {Object}
  */
-const readFiles = (path1, path2) => {
-  const file1 = fs.readFileSync(path.resolve(path1), 'utf8');
-  const file2 = fs.readFileSync(path.resolve(path2), 'utf8');
+const readFiles = (props) => {
+  const { path1, path2 } = props;
 
   return {
-    path1,
-    path2,
-    file1,
-    file2,
+    ...props,
+    file1: fs.readFileSync(path.resolve(path1), 'utf8'),
+    file2: fs.readFileSync(path.resolve(path2), 'utf8'),
     ext1: path.extname(path1).slice(1),
     ext2: path.extname(path2).slice(1),
   };

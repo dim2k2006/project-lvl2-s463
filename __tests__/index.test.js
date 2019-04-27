@@ -20,6 +20,6 @@ const fixtures = [
 
 describe('genDiff', () => {
   test.each(fixtures)('Should return correct diff. Index of the test case: %#', (before, after, expected) => {
-    expect(genDiff(before, after)).toBe(expected);
+    expect(genDiff({ path1: before, path2: after })).toBe(expected);
   });
 });

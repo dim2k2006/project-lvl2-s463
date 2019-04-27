@@ -5,7 +5,6 @@ import getParser from './parsers';
 import buildAst from './utils/buildAst';
 import reverseAndUnique from './utils/reverseAndUnique';
 import getDiff from './utils/getDiff';
-import stringify from './utils/stringify';
 import getFormatter from './formatters';
 import formatTypes from './types/formatTypes';
 

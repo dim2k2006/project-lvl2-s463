@@ -2,7 +2,7 @@
 
 import program from 'commander';
 import genDiff from '..';
-import formatTypes from '../utils/formatTypes';
+import formatTypes from '../types/formatTypes';
 
 program
   .version('1.0.0')

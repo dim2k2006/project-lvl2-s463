@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "commander": "^2.20.0",
-    "ini": "git+ssh://git@github.com/dim2k2006/ini.git",
+    "ini-forked": "^1.3.5",
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.11"
   }

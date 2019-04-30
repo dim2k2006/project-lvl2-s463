@@ -16,10 +16,10 @@ import withPath from './utils/withPath';
  */
 const genDiff = (list = [], format = formatTypes.DEFAULT) => {
   const processedList = list
-    .map((itemPath) => {
-      const file = fs.readFileSync(path.resolve(itemPath), 'utf8');
-      const ext = path.extname(itemPath).slice(1);
-      const data = getParser(ext)(file);
+    .map((filepath) => {
+      const content = fs.readFileSync(path.resolve(filepath), 'utf8');
+      const fileExtension = path.extname(filepath).slice(1);
+      const data = getParser(fileExtension)(content);
       const ast = buildAst(data);
 
       return ast;

@@ -10,12 +10,12 @@ import withPath from './utils/withPath';
 
 /**
  * Generates diff between two files
- * @param {Array} list
+ * @param {Array} filePaths
  * @param {String} format
  * @returns {String}
  */
-const genDiff = (list = [], format = formatTypes.DEFAULT) => {
-  const processedList = list
+const genDiff = (filePaths = [], format = formatTypes.DEFAULT) => {
+  const trees = filePaths
     .map((filepath) => {
       const content = fs.readFileSync(path.resolve(filepath), 'utf8');
       const fileExtension = path.extname(filepath).slice(1);
@@ -25,7 +25,7 @@ const genDiff = (list = [], format = formatTypes.DEFAULT) => {
       return ast;
     });
 
-  const [ast1, ast2] = processedList;
+  const [ast1, ast2] = trees;
 
   const diff1 = getDiff(ast1, ast2);
   const diff2 = reverseAndUnique(diff1)(getDiff(ast2, ast1));

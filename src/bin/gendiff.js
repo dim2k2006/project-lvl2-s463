@@ -12,6 +12,6 @@ program
   .action((path1, path2, options = {}) => {
     const { format = formatTypes.DEFAULT } = options;
 
-    console.log(genDiff({ path1, path2, format }));
+    console.log(genDiff([path1, path2], format));
   })
   .parse(process.argv);

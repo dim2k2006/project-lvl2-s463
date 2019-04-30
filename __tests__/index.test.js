@@ -31,6 +31,6 @@ describe('genDiff', () => {
   }, []);
 
   test.each(table)('Should return correct diff. \nPath1: %s \nPath2: %s \nFormat: %s.', (path1, path2, format, expected) => {
-    expect(genDiff({ path1, path2, format })).toBe(expected);
+    expect(genDiff([path1, path2], format)).toBe(expected);
   });
 });

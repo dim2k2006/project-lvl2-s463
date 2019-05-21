@@ -1,14 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import genDiff from '../src';
-import formatTypes from '../src/types/formatTypes';
 
 describe('genDiff', () => {
   const fixturesPath = path.join('.', '__tests__', '__fixtures__');
   const dataTypes = ['json', 'yml', 'ini'];
+  const formatTypes = ['default', 'plain', 'json'];
 
   const table = dataTypes.reduce((accumulator, dataType) => {
-    const testRow = Object.values(formatTypes).reduce((iAccumulator, formatType) => ([
+    const testRow = formatTypes.reduce((iAccumulator, formatType) => ([
       ...iAccumulator,
       [
         path.join(fixturesPath, dataType, `before.${dataType}`),

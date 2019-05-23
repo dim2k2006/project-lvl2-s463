@@ -4,33 +4,28 @@ import genDiff from '../src';
 
 describe('genDiff', () => {
   const fixturesPath = path.join('.', '__tests__', '__fixtures__');
-  const dataTypes = ['json', 'yml', 'ini'];
-  const formatTypes = ['default', 'plain', 'json'];
 
-  const table = dataTypes.reduce((accumulator, dataType) => {
-    const testRow = formatTypes.reduce((iAccumulator, formatType) => ([
-      ...iAccumulator,
-      [
-        path.join(fixturesPath, dataType, `before.${dataType}`),
-        path.join(fixturesPath, dataType, `after.${dataType}`),
-        formatType,
-        fs.readFileSync(path.join(fixturesPath, `expected-${formatType}.txt`), 'utf-8'),
-      ],
-      [
-        path.join(fixturesPath, dataType, `before-nested.${dataType}`),
-        path.join(fixturesPath, dataType, `after-nested.${dataType}`),
-        formatType,
-        fs.readFileSync(path.join(fixturesPath, `expected-nested-${formatType}.txt`), 'utf-8'),
-      ],
-    ]), []);
+  const table = [
+    { type: 'json', format: 'default' },
+    { type: 'json', format: 'plain' },
+    { type: 'json', format: 'json' },
 
-    return [
-      ...accumulator,
-      ...testRow,
-    ];
-  }, []);
+    { type: 'yml', format: 'default' },
+    { type: 'yml', format: 'plain' },
+    { type: 'yml', format: 'json' },
 
-  test.each(table)('Should return correct diff. \nPath1: %s \nPath2: %s \nFormat: %s.', (path1, path2, format, expected) => {
-    expect(genDiff([path1, path2], format)).toBe(expected);
+    { type: 'ini', format: 'default' },
+    { type: 'ini', format: 'plain' },
+    { type: 'ini', format: 'json' },
+  ];
+
+  table.forEach(({ type, format }) => {
+    const path1 = path.join(fixturesPath, type, `before.${type}`);
+    const path2 = path.join(fixturesPath, type, `after.${type}`);
+    const expected = fs.readFileSync(path.join(fixturesPath, `expected-${format}.txt`), 'utf-8');
+
+    test(`Should return correct diff. Type: ${type}, format: ${format}.`, () => {
+      expect(genDiff([path1, path2], format)).toBe(expected);
+    });
   });
 });

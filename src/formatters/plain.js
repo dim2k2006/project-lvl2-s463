@@ -1,4 +1,4 @@
-import actionTypes from '../types/actionTypes';
+import actionTypes from '../actionTypes';
 
 const placeholder = '[complex value]';
 

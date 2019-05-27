@@ -3,7 +3,7 @@ import path from 'path';
 import has from 'lodash/has';
 import getParser from './parsers';
 import getFormatter from './formatters';
-import actionTypes from './types/actionTypes';
+import actionTypes from './actionTypes';
 import utils from './utils';
 
 const { getKeys, withPath } = utils;

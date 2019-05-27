@@ -4,7 +4,6 @@ import has from 'lodash/has';
 import getParser from './parsers';
 import getFormatter from './formatters';
 import actionTypes from './types/actionTypes';
-import formatTypes from './types/formatTypes';
 import utils from './utils';
 
 const { getKeys, withPath } = utils;
@@ -15,7 +14,7 @@ const { getKeys, withPath } = utils;
  * @param {String} format
  * @returns {String}
  */
-const genDiff = (filePaths = [], format = formatTypes.DEFAULT) => {
+const genDiff = (filePaths = [], format = 'default') => {
   const data = filePaths
     .map((filepath) => {
       const content = fs.readFileSync(path.resolve(filepath), 'utf8');

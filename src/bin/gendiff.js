@@ -2,7 +2,6 @@
 
 import program from 'commander';
 import genDiff from '..';
-import formatTypes from '../types/formatTypes';
 
 program
   .version('1.0.0')
@@ -10,7 +9,7 @@ program
   .description('Compares two configuration files and shows a difference.')
   .option('-f, --format [type]', 'Output format')
   .action((path1, path2, options = {}) => {
-    const { format = formatTypes.DEFAULT } = options;
+    const { format } = options;
 
     console.log(genDiff([path1, path2], format));
   })

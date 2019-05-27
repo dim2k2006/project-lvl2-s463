@@ -24,14 +24,9 @@ describe('genDiff', () => {
     const path2 = path.join(fixturesPath, type);
 
     const expectedFlat = fs.readFileSync(path.join(fixturesPath, `expected-${format}.txt`), 'utf-8');
-    // const expectedNested = fs.readFileSync(path.join(fixturesPath, `expected-nested-${format}.txt`), 'utf-8');
 
     test(`Should return correct diff. Type: ${type}, format: ${format}. Structure: flat.`, () => {
       expect(genDiff([path.join(path1, `before.${type}`), path.join(path2, `after.${type}`)], format)).toBe(expectedFlat);
     });
-
-    // test(`Should return correct diff. Type: ${type}, format: ${format}. Structure: nested.`, () => {
-    //   expect(genDiff([path.join(path1, `before-nested.${type}`), path.join(path2, `after-nested.${type}`)], format)).toBe(expectedNested);
-    // });
   });
 });

@@ -6,7 +6,7 @@ import getFormatter from './formatters';
 import actionTypes from './actionTypes';
 import utils from './utils';
 
-const { getKeys, withPath } = utils;
+const { getKeys } = utils;
 
 /**
  * Generates diff between two files
@@ -80,7 +80,7 @@ const genDiff = (format = 'complex', ...filePaths) => {
       return accumulator;
     }, []);
 
-  return `${getFormatter(format)(withPath(diff))}\n`;
+  return `${getFormatter(format)(diff)}\n`;
 };
 
 export default genDiff;

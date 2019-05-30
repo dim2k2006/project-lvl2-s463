@@ -1,5 +1,11 @@
 const indentationChar = ' ';
 
+const actionMapper = {
+  addition: '+',
+  subtraction: '-',
+  notChanged: ' ',
+};
+
 /**
  * Converts ast to string
  * @param {Array} ast
@@ -13,7 +19,7 @@ const complexFormatter = (ast, depth = 2) => {
       key,
       value,
       children = [],
-    }) => `${indentationChar.repeat(depth)}${action} ${key}: ${(!children.length) ? value : complexFormatter(children, depth + 4)}`)
+    }) => `${indentationChar.repeat(depth)}${actionMapper[action]} ${key}: ${(!children.length) ? value : complexFormatter(children, depth + 4)}`)
     .join('\n');
 
   return `{

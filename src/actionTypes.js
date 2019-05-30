@@ -1,5 +1,5 @@
 export default {
-  ADDITION: '+',
-  SUBTRACTION: '-',
-  DEFAULT: ' ',
+  ADDITION: 'addition',
+  SUBTRACTION: 'subtraction',
+  DEFAULT: 'notChanged',
 };

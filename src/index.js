@@ -10,11 +10,11 @@ const { getKeys, withPath } = utils;
 
 /**
  * Generates diff between two files
- * @param {Array} filePaths
  * @param {String} format
+ * @param {Array} filePaths
  * @returns {String}
  */
-const genDiff = (filePaths = [], format = 'default') => {
+const genDiff = (format = 'complex', ...filePaths) => {
   const data = filePaths
     .map((filepath) => {
       const content = fs.readFileSync(path.resolve(filepath), 'utf8');

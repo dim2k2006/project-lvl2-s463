@@ -1,9 +1,9 @@
-import defaultFormatter from './default';
+import complexFormatter from './complex';
 import plainFormatter from './plain';
 import jsonFormatter from './json';
 
 const formattersMap = {
-  default: defaultFormatter,
+  complex: complexFormatter,
   plain: plainFormatter,
   json: jsonFormatter,
 };

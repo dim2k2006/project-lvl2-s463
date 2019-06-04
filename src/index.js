@@ -1,11 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import has from 'lodash/has';
+import keys from 'lodash/keys';
+import union from 'lodash/union';
 import getParser from './parsers';
 import getFormatter from './formatters';
-import utils from './utils';
-
-const { getKeys } = utils;
 
 const genDiff = (filePath1, filePath2, format = 'complex') => {
   const data = [filePath1, filePath2]
@@ -17,9 +16,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
 
   const [data1, data2] = data;
 
-  const keys = getKeys(data1, data2);
-
-  const diff = keys
+  const diff = union(keys(data1), keys(data2))
     .reduce((accumulator, key) => {
       if (!has(data1, key) && has(data2, key)) {
         return [

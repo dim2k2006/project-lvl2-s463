@@ -5,13 +5,6 @@ const { withPath } = utils;
 
 const placeholder = '[complex value]';
 
-/**
- * Returns value or placeholder
- * @param {Array} children
- * @param {String} value
- * @param {String} holder
- * @returns {string}
- */
 const getValue = (children, value, holder) => {
   const result = (!children.length) ? value : holder;
 
@@ -55,11 +48,6 @@ const iter = tree => tree
     return [...accumulator, { key, message: `Property '${path}' was updated. From ${oldValue} to ${newValue}` }, ...childrenAccumulator];
   }, []);
 
-/**
- * Converts ast to string
- * @param {Array} ast
- * @returns {String}
- */
 const plainFormatter = ast => iter(withPath(ast))
   .map(item => item.message)
   .join('\n');

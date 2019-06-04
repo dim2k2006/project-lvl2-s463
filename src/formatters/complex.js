@@ -6,12 +6,6 @@ const actionMapper = {
   notChanged: ' ',
 };
 
-/**
- * Converts ast to string
- * @param {Array} ast
- * @param {Number} depth
- * @returns {String}
- */
 const complexFormatter = (ast, depth = 2) => {
   const result = ast
     .map(({

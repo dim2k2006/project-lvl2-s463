@@ -8,13 +8,6 @@ import utils from './utils';
 
 const { getKeys } = utils;
 
-/**
- * Generates diff between two files
- * @param {String} format
- * @param {String} filePath1
- * @param {String} filePath2
- * @returns {String}
- */
 const genDiff = (filePath1, filePath2, format = 'complex') => {
   const data = [filePath1, filePath2]
     .map((filepath) => {

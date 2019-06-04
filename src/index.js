@@ -3,7 +3,6 @@ import path from 'path';
 import has from 'lodash/has';
 import getParser from './parsers';
 import getFormatter from './formatters';
-import actionTypes from './actionTypes';
 import utils from './utils';
 
 const { getKeys } = utils;
@@ -28,7 +27,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data2[key],
-            action: actionTypes.ADDITION,
+            action: 'added',
           },
         ];
       }
@@ -39,7 +38,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data1[key],
-            action: actionTypes.SUBTRACTION,
+            action: 'removed',
           },
         ];
       }
@@ -50,7 +49,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data1[key],
-            action: actionTypes.DEFAULT,
+            action: 'notChanged',
           },
         ];
       }
@@ -61,12 +60,12 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data2[key],
-            action: actionTypes.ADDITION,
+            action: 'added',
           },
           {
             key,
             value: data1[key],
-            action: actionTypes.SUBTRACTION,
+            action: 'removed',
           },
         ];
       }

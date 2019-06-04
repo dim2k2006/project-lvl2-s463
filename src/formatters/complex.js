@@ -1,8 +1,8 @@
 const indentationChar = ' ';
 
 const actionMapper = {
-  addition: '+',
-  subtraction: '-',
+  added: '+',
+  removed: '-',
   notChanged: ' ',
 };
 

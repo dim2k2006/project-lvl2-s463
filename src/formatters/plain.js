@@ -1,4 +1,3 @@
-import actionTypes from '../actionTypes';
 import utils from '../utils';
 
 const { withPath } = utils;
@@ -21,29 +20,29 @@ const iter = tree => tree
   }) => {
     if (accumulator.find(item => item.key === key)) return accumulator;
 
-    if (action === actionTypes.DEFAULT && !children.length) return accumulator;
+    if (action === 'notChanged' && !children.length) return accumulator;
 
     const childrenAccumulator = iter(children);
 
-    if (action === actionTypes.DEFAULT && children.length) {
+    if (action === 'notChanged' && children.length) {
       return [...accumulator, ...childrenAccumulator];
     }
 
     const siblingItem = tree.find(item => item.key === key && item.action !== action);
 
-    if (action === actionTypes.SUBTRACTION && !siblingItem) {
+    if (action === 'removed' && !siblingItem) {
       return [...accumulator, { key, message: `Property '${path}' was removed` }];
     }
 
-    if (action === actionTypes.ADDITION && !siblingItem) {
+    if (action === 'added' && !siblingItem) {
       return [...accumulator, { key, message: `Property '${path}' was added with value: ${getValue(children, value, placeholder)}` }, ...childrenAccumulator];
     }
 
     const siblingValue = getValue(siblingItem.children, siblingItem.value, placeholder);
     const currentValue = getValue(children, value, placeholder);
 
-    const oldValue = (action === actionTypes.ADDITION) ? siblingValue : currentValue;
-    const newValue = (action === actionTypes.ADDITION) ? currentValue : siblingValue;
+    const oldValue = (action === 'added') ? siblingValue : currentValue;
+    const newValue = (action === 'added') ? currentValue : siblingValue;
 
     return [...accumulator, { key, message: `Property '${path}' was updated. From ${oldValue} to ${newValue}` }, ...childrenAccumulator];
   }, []);

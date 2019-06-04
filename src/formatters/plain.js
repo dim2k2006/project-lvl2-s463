@@ -1,8 +1,15 @@
-import utils from '../utils';
-
-const { withPath } = utils;
-
 const placeholder = '[complex value]';
+
+const withPath = (ast, path = '') => ast.map((item) => {
+  const { key = '', children = [] } = item;
+  const newPath = `${(path === '') ? key : `${path}.${key}`}`;
+
+  return {
+    ...item,
+    path: newPath,
+    children: withPath(children, newPath),
+  };
+});
 
 const getValue = (children, value, holder) => {
   const result = (!children.length) ? value : holder;

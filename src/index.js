@@ -46,7 +46,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data1[key],
-            action: 'notChanged',
+            action: 'unchanged',
           },
         ];
       }

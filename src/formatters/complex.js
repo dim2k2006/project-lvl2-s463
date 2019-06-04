@@ -3,7 +3,7 @@ const indentationChar = ' ';
 const actionMapper = {
   added: '+',
   removed: '-',
-  notChanged: ' ',
+  unchanged: ' ',
 };
 
 const complexFormatter = (ast, depth = 2) => {

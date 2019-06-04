@@ -27,11 +27,11 @@ const iter = tree => tree
   }) => {
     if (accumulator.find(item => item.key === key)) return accumulator;
 
-    if (action === 'notChanged' && !children.length) return accumulator;
+    if (action === 'unchanged' && !children.length) return accumulator;
 
     const childrenAccumulator = iter(children);
 
-    if (action === 'notChanged' && children.length) {
+    if (action === 'unchanged' && children.length) {
       return [...accumulator, ...childrenAccumulator];
     }
 

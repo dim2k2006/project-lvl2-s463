@@ -1,6 +1,6 @@
 const indentationChar = ' ';
 
-const actionMapper = {
+const typeMapper = {
   added: '+',
   removed: '-',
   unchanged: ' ',
@@ -9,11 +9,11 @@ const actionMapper = {
 const complexFormatter = (ast, depth = 2) => {
   const result = ast
     .map(({
-      action,
+      type,
       key,
       value,
       children = [],
-    }) => `${indentationChar.repeat(depth)}${actionMapper[action]} ${key}: ${(!children.length) ? value : complexFormatter(children, depth + 4)}`)
+    }) => `${indentationChar.repeat(depth)}${typeMapper[type]} ${key}: ${(!children.length) ? value : complexFormatter(children, depth + 4)}`)
     .join('\n');
 
   return `{

@@ -18,7 +18,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data2[key],
-            action: 'added',
+            type: 'added',
           },
         ];
       }
@@ -29,7 +29,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data1[key],
-            action: 'removed',
+            type: 'removed',
           },
         ];
       }
@@ -40,7 +40,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data1[key],
-            action: 'unchanged',
+            type: 'unchanged',
           },
         ];
       }
@@ -51,12 +51,12 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
           {
             key,
             value: data2[key],
-            action: 'added',
+            type: 'added',
           },
           {
             key,
             value: data1[key],
-            action: 'removed',
+            type: 'removed',
           },
         ];
       }

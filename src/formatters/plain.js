@@ -19,7 +19,7 @@ const getValue = (children, value, holder) => {
 
 const iter = tree => tree
   .reduce((accumulator, {
-    action,
+    type,
     key,
     value,
     children = [],
@@ -27,29 +27,29 @@ const iter = tree => tree
   }) => {
     if (accumulator.find(item => item.key === key)) return accumulator;
 
-    if (action === 'unchanged' && !children.length) return accumulator;
+    if (type === 'unchanged' && !children.length) return accumulator;
 
     const childrenAccumulator = iter(children);
 
-    if (action === 'unchanged' && children.length) {
+    if (type === 'unchanged' && children.length) {
       return [...accumulator, ...childrenAccumulator];
     }
 
-    const siblingItem = tree.find(item => item.key === key && item.action !== action);
+    const siblingItem = tree.find(item => item.key === key && item.type !== type);
 
-    if (action === 'removed' && !siblingItem) {
+    if (type === 'removed' && !siblingItem) {
       return [...accumulator, { key, message: `Property '${path}' was removed` }];
     }
 
-    if (action === 'added' && !siblingItem) {
+    if (type === 'added' && !siblingItem) {
       return [...accumulator, { key, message: `Property '${path}' was added with value: ${getValue(children, value, placeholder)}` }, ...childrenAccumulator];
     }
 
     const siblingValue = getValue(siblingItem.children, siblingItem.value, placeholder);
     const currentValue = getValue(children, value, placeholder);
 
-    const oldValue = (action === 'added') ? siblingValue : currentValue;
-    const newValue = (action === 'added') ? currentValue : siblingValue;
+    const oldValue = (type === 'added') ? siblingValue : currentValue;
+    const newValue = (type === 'added') ? currentValue : siblingValue;
 
     return [...accumulator, { key, message: `Property '${path}' was updated. From ${oldValue} to ${newValue}` }, ...childrenAccumulator];
   }, []);

@@ -7,14 +7,8 @@ import getParser from './parsers';
 import getFormatter from './formatters';
 
 const genDiff = (filePath1, filePath2, format = 'complex') => {
-  const data = [filePath1, filePath2]
-    .map((filepath) => {
-      const content = fs.readFileSync(path.resolve(filepath), 'utf8');
-      const fileExtension = path.extname(filepath).slice(1);
-      return getParser(fileExtension)(content);
-    });
-
-  const [data1, data2] = data;
+  const data1 = getParser(path.extname(filePath1).slice(1))(fs.readFileSync(path.resolve(filePath1), 'utf8'));
+  const data2 = getParser(path.extname(filePath2).slice(1))(fs.readFileSync(path.resolve(filePath2), 'utf8'));
 
   const diff = union(keys(data1), keys(data2))
     .reduce((accumulator, key) => {

@@ -1,61 +1,18 @@
-const placeholder = '[complex value]';
+// const placeholder = '[complex value]';
 
-const withPath = (ast, path = '') => ast.map((item) => {
-  const { key = '', children = [] } = item;
-  const newPath = `${(path === '') ? key : `${path}.${key}`}`;
-
-  return {
-    ...item,
-    path: newPath,
-    children: withPath(children, newPath),
-  };
-});
-
-const getValue = (children, value, holder) => {
-  const result = (!children.length) ? value : holder;
-
-  return result;
+const nodeTypes = {
+  added: node => `Property '${node.key}' was added with value: ${node.newValue}`,
+  removed: node => `Property '${node.key}' was removed`,
+  changed: node => `Property '${node.key}' was updated. From ${node.oldValue} to ${node.newValue}`,
 };
 
-const iter = tree => tree
-  .reduce((accumulator, {
-    type,
-    key,
-    value,
-    children = [],
-    path = '',
-  }) => {
-    if (accumulator.find(item => item.key === key)) return accumulator;
+const plainFormatter = (ast) => {
+  const string = ast
+    .filter(node => node.type !== 'unchanged')
+    .map(node => `${nodeTypes[node.type](node)}`)
+    .join('\n');
 
-    if (type === 'unchanged' && !children.length) return accumulator;
-
-    const childrenAccumulator = iter(children);
-
-    if (type === 'unchanged' && children.length) {
-      return [...accumulator, ...childrenAccumulator];
-    }
-
-    const siblingItem = tree.find(item => item.key === key && item.type !== type);
-
-    if (type === 'removed' && !siblingItem) {
-      return [...accumulator, { key, message: `Property '${path}' was removed` }];
-    }
-
-    if (type === 'added' && !siblingItem) {
-      return [...accumulator, { key, message: `Property '${path}' was added with value: ${getValue(children, value, placeholder)}` }, ...childrenAccumulator];
-    }
-
-    const siblingValue = getValue(siblingItem.children, siblingItem.value, placeholder);
-    const currentValue = getValue(children, value, placeholder);
-
-    const oldValue = (type === 'added') ? siblingValue : currentValue;
-    const newValue = (type === 'added') ? currentValue : siblingValue;
-
-    return [...accumulator, { key, message: `Property '${path}' was updated. From ${oldValue} to ${newValue}` }, ...childrenAccumulator];
-  }, []);
-
-const plainFormatter = ast => iter(withPath(ast))
-  .map(item => item.message)
-  .join('\n');
+  return string;
+};
 
 export default plainFormatter;

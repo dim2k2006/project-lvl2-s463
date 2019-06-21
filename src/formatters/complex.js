@@ -11,13 +11,13 @@ const stringify = (value, indent) => {
 
   const openingBracket = '{';
   const closingBracket = (newIndent > indentSize) ? `${indentationChar.repeat(newIndent - indentSize)}}` : '}';
-  const indentation = indentationChar.repeat(newIndent - serviceCharLength);
+  const indentString = indentationChar.repeat(newIndent - serviceCharLength);
 
   const key = keys(value)[0];
   const val = value[key];
   const output = `  ${key}: ${val}`;
 
-  return `${openingBracket}\n${indentation}${output}\n${closingBracket}`;
+  return `${openingBracket}\n${indentString}${output}\n${closingBracket}`;
 };
 
 const nodeTypes = {

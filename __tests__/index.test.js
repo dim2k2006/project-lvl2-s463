@@ -24,9 +24,11 @@ describe('genDiff', () => {
     const path2 = path.join(fixturesPath, type);
 
     const expectedFlat = fs.readFileSync(path.join(fixturesPath, `expected-${format}.txt`), 'utf-8');
+    const config1 = path.join(path1, `before.${type}`);
+    const config2 = path.join(path2, `after.${type}`);
 
     test(`Should return correct diff. Type: ${type}, format: ${format}. Structure: flat.`, () => {
-      expect(genDiff(path.join(path1, `before.${type}`), path.join(path2, `after.${type}`), format)).toBe(expectedFlat);
+      expect(genDiff(config1, config2, format)).toBe(expectedFlat);
     });
   });
 });

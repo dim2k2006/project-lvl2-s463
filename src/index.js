@@ -45,8 +45,14 @@ const keyTypes = [
 ];
 
 const genDiff = (filePath1, filePath2, format = 'complex') => {
-  const data1 = getParser(path.extname(filePath1).slice(1))(fs.readFileSync(path.resolve(filePath1), 'utf8'));
-  const data2 = getParser(path.extname(filePath2).slice(1))(fs.readFileSync(path.resolve(filePath2), 'utf8'));
+  const config1 = fs.readFileSync(path.resolve(filePath1), 'utf8');
+  const config2 = fs.readFileSync(path.resolve(filePath2), 'utf8');
+
+  const configExt1 = path.extname(filePath1).slice(1);
+  const configExt2 = path.extname(filePath2).slice(1);
+
+  const data1 = getParser(configExt1)(config1);
+  const data2 = getParser(configExt2)(config2);
 
   const diff = union(keys(data1), keys(data2))
     .map((key) => {

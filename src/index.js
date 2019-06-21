@@ -1,9 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import has from 'lodash/has';
-import keys from 'lodash/keys';
-import union from 'lodash/union';
-import find from 'lodash/find';
+import {
+  has,
+  keys,
+  union,
+  find,
+} from 'lodash';
 import getParser from './parsers';
 import getFormatter from './formatters';
 

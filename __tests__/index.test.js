@@ -10,11 +10,11 @@ describe('genDiff', () => {
     // { type: 'json', format: 'plain' },
     // { type: 'json', format: 'json' },
 
-    // { type: 'yml', format: 'complex' },
+    { type: 'yml', format: 'complex' },
     // { type: 'yml', format: 'plain' },
     // { type: 'yml', format: 'json' },
 
-    // { type: 'ini', format: 'complex' },
+    { type: 'ini', format: 'complex' },
     // { type: 'ini', format: 'plain' },
     // { type: 'ini', format: 'json' },
   ];

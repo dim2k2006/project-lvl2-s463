@@ -79,7 +79,7 @@ const genDiff = (filePath1, filePath2, format = 'complex') => {
 
   // console.log('diff:', JSON.stringify(diff));
 
-  return `${getFormatter(format)(diff)}\n`;
+  return getFormatter(format)(diff);
 };
 
 export default genDiff;

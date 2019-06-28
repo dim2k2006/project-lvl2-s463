@@ -7,15 +7,15 @@ describe('genDiff', () => {
 
   const table = [
     { type: 'json', format: 'complex' },
-    // { type: 'json', format: 'plain' },
+    { type: 'json', format: 'plain' },
     // { type: 'json', format: 'json' },
 
     { type: 'yml', format: 'complex' },
-    // { type: 'yml', format: 'plain' },
+    { type: 'yml', format: 'plain' },
     // { type: 'yml', format: 'json' },
 
     { type: 'ini', format: 'complex' },
-    // { type: 'ini', format: 'plain' },
+    { type: 'ini', format: 'plain' },
     // { type: 'ini', format: 'json' },
   ];
 

@@ -1,4 +1,4 @@
-import { keys } from 'lodash';
+import { keys, flatten } from 'lodash';
 
 const indentationChar = ' ';
 const indentSize = 4;
@@ -13,7 +13,6 @@ const stringify = (value, depth) => {
   if (!(value instanceof Object)) return value;
 
   const { openingBracket, closingBracket } = getBrackets(depth, indentSize);
-
   const indentString = indentationChar.repeat(depth * indentSize - serviceCharLength);
 
   const key = keys(value)[0];
@@ -24,7 +23,7 @@ const stringify = (value, depth) => {
 };
 
 const nodeTypes = {
-  nested: (node, depth, indentString, fn) => `  ${node.key}: ${fn(node.newValue, depth + 1)}`,
+  nested: (node, depth, fn) => `  ${node.key}: ${fn(node.newValue, depth + 1)}`,
 
   added: (node, depth) => `+ ${node.key}: ${stringify(node.newValue, depth + 1)}`,
 
@@ -32,24 +31,20 @@ const nodeTypes = {
 
   unchanged: (node, depth) => `  ${node.key}: ${stringify(node.newValue, depth + 1)}`,
 
-  changed: (node, depth, indentString) => {
-    const addedValue = `+ ${node.key}: ${stringify(node.newValue, depth + 1)}`;
-    const removedValue = `${indentString}- ${node.key}: ${stringify(node.oldValue, depth + 1)}`;
-
-    return `${addedValue}\n${removedValue}`;
-  },
+  changed: (node, depth) => ([
+    `+ ${node.key}: ${stringify(node.newValue, depth + 1)}`,
+    `- ${node.key}: ${stringify(node.oldValue, depth + 1)}`,
+  ]),
 };
 
 const complexFormatter = (ast, depth = 1) => {
   const { openingBracket, closingBracket } = getBrackets(depth, indentSize);
+  const indentString = indentationChar.repeat(depth * indentSize - serviceCharLength);
 
-  const output = ast
-    .map((node) => {
-      const indentString = indentationChar.repeat(depth * indentSize - serviceCharLength);
-      const value = nodeTypes[node.type](node, depth, indentString, complexFormatter);
-
-      return `${indentString}${value}`;
-    })
+  const values = ast.map(node => nodeTypes[node.type](node, depth, complexFormatter));
+  const flattenedValues = flatten(values);
+  const output = flattenedValues
+    .map((value => `${indentString}${value}`))
     .join('\n');
 
   return `${openingBracket}\n${output}\n${closingBracket}`;

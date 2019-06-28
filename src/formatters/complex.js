@@ -4,17 +4,17 @@ const indentationChar = ' ';
 const indentSize = 4;
 const serviceCharLength = 2;
 
-const getBrackets = (indent, defaultIndent) => ({
+const getBrackets = (depth, indent) => ({
   openingBracket: '{',
-  closingBracket: `${(indent > defaultIndent) ? indentationChar.repeat(indent - defaultIndent) : ''}}`,
+  closingBracket: `${(depth > 1) ? indentationChar.repeat(depth * indent - indent) : ''}}`,
 });
 
-const stringify = (value, indent) => {
+const stringify = (value, depth) => {
   if (!(value instanceof Object)) return value;
 
-  const { openingBracket, closingBracket } = getBrackets(indent, indentSize);
+  const { openingBracket, closingBracket } = getBrackets(depth, indentSize);
 
-  const indentString = indentationChar.repeat(indent - serviceCharLength);
+  const indentString = indentationChar.repeat(depth * indentSize - serviceCharLength);
 
   const key = keys(value)[0];
   const val = value[key];
@@ -24,29 +24,29 @@ const stringify = (value, indent) => {
 };
 
 const nodeTypes = {
-  nested: (node, indent, indentString, fn) => `  ${node.key}: ${fn(node.newValue, indent + indentSize)}`,
+  nested: (node, depth, indentString, fn) => `  ${node.key}: ${fn(node.newValue, depth + 1)}`,
 
-  added: (node, indent) => `+ ${node.key}: ${stringify(node.newValue, indent + indentSize)}`,
+  added: (node, depth) => `+ ${node.key}: ${stringify(node.newValue, depth + 1)}`,
 
-  removed: (node, indent) => `- ${node.key}: ${stringify(node.oldValue, indent + indentSize)}`,
+  removed: (node, depth) => `- ${node.key}: ${stringify(node.oldValue, depth + 1)}`,
 
-  unchanged: (node, indent) => `  ${node.key}: ${stringify(node.newValue, indent + indentSize)}`,
+  unchanged: (node, depth) => `  ${node.key}: ${stringify(node.newValue, depth + 1)}`,
 
-  changed: (node, indent, indentString) => {
-    const addedValue = `+ ${node.key}: ${stringify(node.newValue, indent + indentSize)}`;
-    const removedValue = `${indentString}- ${node.key}: ${stringify(node.oldValue, indent + indentSize)}`;
+  changed: (node, depth, indentString) => {
+    const addedValue = `+ ${node.key}: ${stringify(node.newValue, depth + 1)}`;
+    const removedValue = `${indentString}- ${node.key}: ${stringify(node.oldValue, depth + 1)}`;
 
     return `${addedValue}\n${removedValue}`;
   },
 };
 
-const complexFormatter = (ast, indent = indentSize) => {
-  const { openingBracket, closingBracket } = getBrackets(indent, indentSize);
+const complexFormatter = (ast, depth = 1) => {
+  const { openingBracket, closingBracket } = getBrackets(depth, indentSize);
 
   const output = ast
     .map((node) => {
-      const indentString = indentationChar.repeat(indent - serviceCharLength);
-      const value = nodeTypes[node.type](node, indent, indentString, complexFormatter);
+      const indentString = indentationChar.repeat(depth * indentSize - serviceCharLength);
+      const value = nodeTypes[node.type](node, depth, indentString, complexFormatter);
 
       return `${indentString}${value}`;
     })
